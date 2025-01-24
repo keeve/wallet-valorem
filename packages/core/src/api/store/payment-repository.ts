@@ -4,7 +4,6 @@ import { GetCommand } from "@aws-sdk/lib-dynamodb"
 import { Service } from 'typedi'
 import { Payment } from '../types';
 
-
 @Service()
 export class PaymentRepository {
 
@@ -12,7 +11,7 @@ export class PaymentRepository {
         private readonly dbClient
     
         constructor() {
-            this.tableName = process.env.DYNAMODB_WALLET_TABLE || 'rawPaymentNotifications'
+            this.tableName = process.env.WalletTable
             this.dbClient =  new DynamoDB();
         }
     

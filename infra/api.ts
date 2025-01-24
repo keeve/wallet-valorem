@@ -11,11 +11,10 @@ export const processorForQueue = new sst.aws.Function("queueProcessor", {
     resources: [paymentTbl.arn]
   }],
   environment: {
-    PaymentTable: paymentTbl.name
+    PaymentTable: paymentTbl.name,
   }
 });
 
-processorForQueue.getSSTLink()
 
 export const processorForStream = new sst.aws.Function("streamProcessor", {
   handler: "packages/functions/src/payment-stream.handler",
@@ -34,7 +33,12 @@ api.route("GET /payment/:id", { handler: "packages/core/src/api/payment.handler"
 
 
 export const webhook = new sst.aws.ApiGatewayV2("WalletWebhook", { link:[queue] });
-webhook.route("POST /webhook/payment.create", { handler: "packages/core/src/webhook.handler" });
+webhook.route("POST /webhook/payment.create", { 
+  handler: "packages/core/src/webhook.handler",
+  environment: {
+    HMAC_SECRET_KEY: "4e8ed8cb73ab6a502d02825a2912e2313a3ea7b3a9e88336083d28984de2605d",
+  }
+});
 
 queue.subscribe(processorForQueue.arn);
 paymentTbl.subscribe("PaymentStreamSubcriber", processorForStream.arn, {});

@@ -1,19 +1,26 @@
-export const handler = async (event: any) => {
-    console.log(event);
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ route: event.routeKey, status: "ok" }, null, 2),
-    };
+import { WebEvent } from "../types";
+import { WalletService } from "./service/wallet-service";
 
-    /*
-    const userID = req.params.id;
+export const handler = async (event: WebEvent) => {
+    console.log(event);
+
+    const path = event.rawPath.split("/")
+    console.log(`path len - ${path.length}`);
+    
+    const userID = path[path.length-1];
+    const wallet = await WalletService.findByUserID(userID)
         
-        const wallet = await WalletService.findByUserID(userID)
-        
-        if (wallet) {
-          res.json(wallet);
-        } else {
-          res.status(404).json({ message: "wallet not found" });
-        }
-    */
+
+    if (!wallet) {
+        return {
+            statusCode: 404,
+            body: JSON.stringify({ message: "wallet not found" }),
+        };
+    }
+    
+
+    return {
+        statusCode: 200,
+        body: JSON.stringify(wallet),
+    };
   };

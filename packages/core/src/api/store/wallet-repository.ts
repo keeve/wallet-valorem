@@ -12,7 +12,7 @@ export class WalletRepository {
     private readonly dbClient
 
     constructor() {
-        this.tableName = process.env.DYNAMODB_WALLET_TABLE || 'wallet'
+        this.tableName = process.env.WalletTable
         this.dbClient =  new DynamoDB();
     }
 

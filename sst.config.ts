@@ -10,25 +10,6 @@ export default $config({
     };
   },
   async run() {
-    // Create a permission boundary
-    /*
-    const permissionsBoundary = new aws.iam.Policy("WalletPermissionsBoundary", {
-      policy: aws.iam.getPolicyDocumentOutput({
-        statements: [
-          {
-            actions: ["dynamodb:*"],
-            resources: ["*"],
-          },
-        ],
-      }).json,
-    });
-
-    // Apply the boundary to all roles
-    $transform(aws.iam.Role, (args) => {
-      args.permissionsBoundary = permissionsBoundary.arn;
-    });
-    */
-
     const storage = await import("./infra/storage");
     await import("./infra/api");
     
