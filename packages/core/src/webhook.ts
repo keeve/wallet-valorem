@@ -19,8 +19,12 @@ export const handler: Handler = async (event: WebEvent) => {
     }
 
   const hmacValue = event.headers.authorization.replace("HMAC_SHA256 ","")
-  if (!isHmacValid(hmacValue)) {
-     return {
+  const sig = Buffer.from(hmacValue || "", "utf8");
+  const digest = isHmacValid(event.body)
+
+  //Compare HMACs
+  if (sig.length !== digest.length || !crypto.timingSafeEqual(digest, sig)) {
+    return {
       statusCode: 401,
       body: JSON.stringify({ message: `Invalid key, not authorised` }),
     };
@@ -41,21 +45,15 @@ export const handler: Handler = async (event: WebEvent) => {
   };
 };
 
-export const isHmacValid = (hmacValue: string): boolean => {
-  const sig = Buffer.from(hmacValue || "", "utf8");
-
+export const isHmacValid = (body: any): Buffer<ArrayBuffer> => {
+  const msg = body || ""
   const key = process.env.HMAC_SECRET_KEY || secretKey;
+
   //Calculate HMAC
-  const hmac = crypto.createHmac("sha256", key);
   const digest = Buffer.from(
-     hmac.update("").digest("hex"),
+    crypto.createHmac("sha256", key).update(msg).digest("hex"),
     "utf8",
   );
-
-  //Compare HMACs
-  if (sig.length !== digest.length || !crypto.timingSafeEqual(digest, sig)) {
-     return false
-  }
-
-  return true
+  
+  return digest
 }
