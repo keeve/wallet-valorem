@@ -3,6 +3,7 @@
   "type": "module",
   "version": "0.0.0",
   "scripts": {
+    "test": "vitest",
     "build": "npm run clean && tsc",
     "clean": "rimraf dist/"
   },
@@ -25,8 +26,9 @@
     "typedi": "^0.10.0"
   },
   "devDependencies": {
+    "@tsconfig/node22": "^22.0.0",
     "@types/express": "^5.0.0",
     "sst": "^3.6.9",
-    "vitest": "^2"
+    "vitest": "^2.1.8"
   }
 }
