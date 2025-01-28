@@ -2,7 +2,7 @@ import { WebEvent } from "../types";
 import { WalletService } from "./service/wallet-service";
 
 export const handler = async (event: WebEvent) => {
-    console.log(event);
+    console.log(`event - ${event}`);
 
     const path = event.rawPath.split("/")
     console.log(`path len - ${path.length}`);

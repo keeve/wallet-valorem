@@ -27,9 +27,15 @@ export const processorForStream = new sst.aws.Function("streamProcessor", {
 
 
 
-export const api = new sst.aws.ApiGatewayV2("WalletApi", {});
-api.route("GET /wallet/:id", { handler: "packages/core/src/api/wallet.handler" }, {});
-api.route("GET /payment/:id", { handler: "packages/core/src/api/payment.handler" }, {});
+export const api = new sst.aws.ApiGatewayV2("WalletApi", { link:[walletTbl] });
+api.route("GET /wallet/{id}", { 
+  handler: "packages/core/src/api/wallet.handler",
+  environment: {  WalletTable: walletTbl.name } 
+});
+api.route("GET /payment/{id}", { 
+  handler: "packages/core/src/api/payment.handler", 
+  environment: {  WalletTable: walletTbl.name } 
+});
 
 
 export const webhook = new sst.aws.ApiGatewayV2("WalletWebhook", { link:[queue] });

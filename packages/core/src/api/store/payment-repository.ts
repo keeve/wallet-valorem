@@ -1,17 +1,14 @@
-import AWS from 'aws-sdk'
 import { DynamoDB } from "@aws-sdk/client-dynamodb";
 import { GetCommand } from "@aws-sdk/lib-dynamodb"
-import { Service } from 'typedi'
 import { Payment } from '../types';
 
-@Service()
 export class PaymentRepository {
 
     private readonly tableName: string
         private readonly dbClient
     
         constructor() {
-            this.tableName = process.env.WalletTable
+            this.tableName = process.env.WalletTable || ''
             this.dbClient =  new DynamoDB();
         }
     

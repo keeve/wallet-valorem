@@ -3,9 +3,7 @@
   "type": "module",
   "version": "0.0.0",
   "scripts": {
-    "test": "vitest",
-    "build": "npm run clean && tsc",
-    "clean": "rimraf dist/"
+    "test": "vitest"
   },
   "exports": {
     "./*": [
@@ -18,12 +16,7 @@
     "@aws-sdk/client-sqs": "^3.731.1",
     "@aws-sdk/lib-dynamodb": "^3.731.1",
     "@types/aws-lambda": "^8.10.147",
-    "@types/aws-sdk": "^0.0.42",
-    "dotenv": "^16.4.7",
-    "express": "^4.21.2",
-    "find-config": "^1.0.0",
-    "rimraf": "^6.0.1",
-    "typedi": "^0.10.0"
+    "@types/aws-sdk": "^0.0.42"
   },
   "devDependencies": {
     "@tsconfig/node22": "^22.0.0",
