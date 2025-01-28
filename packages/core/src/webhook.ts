@@ -5,7 +5,7 @@ import {  WebEvent } from "./types";
 import crypto from 'crypto'
 
 const client = new SQSClient();
-const secretKey = "4e8ed8cb73ab6a502d02825a2912e2313a3ea7b3a9e88336083d28984de2605d";
+const secretKey = "4e8ed8cb73ab6a502d02825a2912e2313a3ea7b3a9e88336083d28984de2605d"; // should not be here in prod (test purposes only)
 
 export const handler: Handler = async (event: WebEvent) => {
 
